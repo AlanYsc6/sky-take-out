@@ -31,4 +31,8 @@ public interface EmployeeService {
      * @param id 员工ID
      */
     void updateStatus(Integer status, Long id);
+
+    Employee getEmployeeById(Long id);
+
+    void update(EmployeeDTO employeeDTO);
 }
