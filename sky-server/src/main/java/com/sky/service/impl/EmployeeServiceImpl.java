@@ -32,6 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * 员工登录方法，根据提供的员工登录数据进行登录
+     *
      * @param employeeLoginDTO 员工登录数据传输对象
      * @return 登录成功后返回员工对象，登录失败返回null
      */
@@ -50,7 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         //密码比对
         //md5加密
-        password=DigestUtils.md5DigestAsHex(password.getBytes());
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
         if (!password.equals(employee.getPassword())) {
             //密码错误
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
@@ -92,10 +93,27 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
         //1、分页查询员工数据
-        PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
         Page<Employee> employeePage = employeeMapper.pageQuery(employeePageQueryDTO);
         //2、封装PageResult对象并返回
-        return new PageResult(employeePage.getTotal(),employeePage.getResult());
+        return new PageResult(employeePage.getTotal(), employeePage.getResult());
+    }
+
+    /**
+     * 修改员工状态
+     *
+     * @param status 员工状态
+     * @param id     员工ID
+     */
+    @Override
+    public void updateStatus(Integer status, Long id) {
+        Employee employee = Employee.builder()
+                .id(id)
+                .status(status)
+                .updateTime(LocalDateTime.now())
+                .updateUser(BaseContext.getCurrentId())
+                .build();
+        employeeMapper.update(employee);
     }
 
 }

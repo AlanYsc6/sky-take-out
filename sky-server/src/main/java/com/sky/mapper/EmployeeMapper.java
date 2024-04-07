@@ -30,4 +30,6 @@ public interface EmployeeMapper {
 
     //根据姓名模糊查询员工信息
     Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+    //更新员工信息
+    void update(Employee employee);
 }

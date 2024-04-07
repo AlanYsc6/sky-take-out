@@ -25,4 +25,10 @@ public interface EmployeeService {
      * @return 包含员工分页信息的Result对象
      */
     PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+    /**
+     * 修改员工状态
+     * @param status 员工状态
+     * @param id 员工ID
+     */
+    void updateStatus(Integer status, Long id);
 }

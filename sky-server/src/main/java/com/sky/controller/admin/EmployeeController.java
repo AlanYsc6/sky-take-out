@@ -75,6 +75,7 @@ public class EmployeeController {
     public Result<String> logout() {
         return Result.success();
     }
+
     /**
      * 新增员工
      *
@@ -88,16 +89,31 @@ public class EmployeeController {
         employeeService.save(employeeDTO);
         return Result.success();
     }
+
     /**
      * 获取员工分页信息
+     *
      * @param employeePageQueryDTO 员工分页查询DTO
      * @return 包含员工分页信息的Result对象
      */
     @GetMapping("/page")
     @ApiOperation("分页查询员工")
-    public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO){
+    public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO) {
         log.info("分页查询员工：{}", employeePageQueryDTO);
         PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
         return Result.success(pageResult);
+    }
+    /**
+     * 修改员工状态
+     * @param status 员工状态
+     * @param id 员工ID
+     * @return 结果信息
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("修改员工状态")
+    public Result<String> updateStatus(@PathVariable("status") Integer status, @RequestParam("id") Long id) {
+        log.info("修改员工状态：status={}, id={}", status, id);
+        employeeService.updateStatus(status, id);
+        return Result.success();
     }
 }
