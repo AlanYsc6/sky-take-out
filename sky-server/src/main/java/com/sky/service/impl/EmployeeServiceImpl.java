@@ -34,6 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param employeeLoginDTO 员工登录数据传输对象
      * @return 登录成功后返回员工对象，登录失败返回null
      */
+    @Override
     public Employee login(EmployeeLoginDTO employeeLoginDTO) {
         String username = employeeLoginDTO.getUsername();
         String password = employeeLoginDTO.getPassword();
