@@ -4,7 +4,61 @@
 <mapper namespace="com.sky.mapper.DishMapper">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into dish (name, category_id, price, image, description, status, create_time, update_time, create_user, update_user)
-    values (#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})
+        insert into dish (name, category_id, price, image, description, status, create_time, update_time, create_user,
+                          update_user)
+        values (#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{status}, #{createTime}, #{updateTime},
+                #{createUser}, #{updateUser})
     </insert>
+    <update id="update">
+        update dish
+        <set>
+            <if test="name!= null">
+                name = #{name},
+            </if>
+            <if test="categoryId!= null">
+                category_id = #{categoryId},
+            </if>
+            <if test="price!= null">
+                price = #{price},
+            </if>
+            <if test="image!= null">
+                image = #{image},
+            </if>
+            <if test="description!= null">
+                description = #{description},
+            </if>
+            <if test="status!= null">
+                status = #{status},
+            </if>
+            <if test="updateTime!= null">
+                update_time = #{updateTime},
+            </if>
+            <if test="updateUser!= null">
+                update_user = #{updateUser},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteByIds">
+        delete from dish where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="pageQuery" resultType="com.sky.vo.DishVO">
+        select d.*,c.name as categoryName from dish d left join category c on d.category_id = c.id
+        <where>
+            <if test="name!= null and name!= ''">
+                and d.name like concat('%', #{name}, '%')
+            </if>
+            <if test="categoryId!= null and categoryId!= ''">
+                and d.category_id = #{categoryId}
+            </if>
+            <if test="status!= null and status!= ''">
+                and d.status = #{status}
+            </if>
+        </where>
+        order by status desc, update_time desc
+    </select>
+
 </mapper>
