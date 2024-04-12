@@ -49,4 +49,7 @@ public interface DishMapper {
     //更新菜品信息
     @AutoFill(OperationType.UPDATE)
     void update(Dish dish);
+
+    //查询分类菜品信息
+    List<Dish> list(Dish dish);
 }

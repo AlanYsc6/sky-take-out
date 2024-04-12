@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @Author Alan
@@ -87,23 +86,17 @@ public class DishServiceImpl implements DishService {
     @Transactional
     public void deleteBatch(List<Long> ids) {
         //判断菜品状态
-        for (Long id : ids) {
+        ids.forEach(id-> {
             Dish dish = dishMapper.getById(id);
-            if (Objects.equals(dish.getStatus(), StatusConstant.ENABLE)) {
+            if (StatusConstant.ENABLE.equals(dish.getStatus())) {
                 throw new DeletionNotAllowedException(MessageConstant.DISH_ON_SALE);
             }
-        }
+        });
         //判断菜品是否关联套餐
         List<Long> setmealIds = setmealDishMapper.getsetmealIdsByDishIds(ids);
         if (setmealIds!= null && setmealIds.size() > 0) {
             throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
         }
-//        for (Long id : ids) {
-//            //删除菜品信息
-//            dishMapper.deleteById(id);
-//            //删除菜品口味信息
-//            dishFlavorMapper.deleteByDishId(id);
-//        }
 
             //批量删除菜品信息
             dishMapper.deleteByIds(ids);
@@ -153,5 +146,20 @@ public class DishServiceImpl implements DishService {
             });
             dishFlavorMapper.insertBatch(flavors);
         }
+    }
+
+    /**
+     * 根据分类id查询菜品列表
+     *
+     * @param categoryId 分类id
+     * @return 菜品列表
+     */
+    @Override
+    public List<Dish> list(Long categoryId) {
+        Dish dish = Dish.builder()
+                .categoryId(categoryId)
+                .status(StatusConstant.ENABLE)
+                .build();
+        return dishMapper.list(dish);
     }
 }

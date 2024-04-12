@@ -50,7 +50,6 @@ public class CategoryController {
         PageResult pageResult = categoryService.pageQuery(categoryPageQueryDTO);
         return Result.success(pageResult);
     }
-
     /**
      * 删除分类
      * @param id

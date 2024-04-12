@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.SetmealMapper">
+
+    <insert id="insert" parameterType="Setmeal" useGeneratedKeys="true" keyProperty="id">
+        insert into setmeal(category_id, name, price, description, image, create_time, update_time,
+                            create_user, update_user)
+        values (#{categoryId}, #{name}, #{price}, #{description}, #{image}, #{createTime}, #{updateTime},
+                #{createUser},#{updateUser})
+    </insert>
+    <delete id="deleteByIds">
+        delete from setmeal where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="pageQuery" resultType="com.sky.vo.SetmealVO">
+        select
+        s.*,c.name categoryName
+        from
+        setmeal s
+        left join
+        category c
+        on
+        s.category_id = c.id
+        <where>
+            <if test="name != null">
+                and s.name like concat('%',#{name},'%')
+            </if>
+            <if test="status != null">
+                and s.status = #{status}
+            </if>
+            <if test="categoryId != null">
+                and s.category_id = #{categoryId}
+            </if>
+        </where>
+        order by s.status desc, s.update_time desc
+    </select>
+</mapper>
