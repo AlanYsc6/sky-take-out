@@ -42,3 +42,5 @@ sky:
       endpoint: ${sky.alioss.endpoint}
       bucket-name: ${sky.alioss.bucket-name}
       folder-name: ${sky.alioss.folder-name}
+pagehelper:
+  reasonable: true

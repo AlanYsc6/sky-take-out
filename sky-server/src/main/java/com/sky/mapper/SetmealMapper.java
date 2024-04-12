@@ -60,4 +60,10 @@ public interface SetmealMapper {
      * @param ids 套餐id列表
      */
     void deleteByIds(List<Long> ids);
+
+    /**
+     * 修改套餐
+     * @param setmeal 套餐实体类
+     */
+    void update(Setmeal setmeal);
 }
