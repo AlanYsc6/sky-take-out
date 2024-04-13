@@ -10,4 +10,6 @@ public class StatusConstant {
 
     //禁用
     public static final Integer DISABLE = 0;
+    //店铺状态key
+    public static final String REDIS_SHOP_STATUS_KEY = "SHOP_STATUS";
 }

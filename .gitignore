@@ -3,4 +3,4 @@
 *.iml
 *.class
 *Test.java
-**/test/
+**/com.sky.test.test/

@@ -10,3 +10,8 @@ sky:
     endpoint: oss-cn-hangzhou.aliyuncs.com
     bucket-name: alany
     folder-name: take-out/
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 1
