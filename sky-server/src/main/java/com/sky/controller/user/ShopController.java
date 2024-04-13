@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @Author Alan
  * @Date 2024/4/13 10:17
- * @Description 用户端店铺相关接口
+ * @Description 店铺相关接口
  */
 @RestController
 @Slf4j
 @RequestMapping("/user/shop")
-@Api(tags = "用户端店铺相关接口")
-public class UserShopController {
+@Api(tags = "店铺相关接口")
+public class ShopController {
     @Autowired
     private RedisTemplate redisTemplate;
 
