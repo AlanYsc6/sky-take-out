@@ -61,4 +61,14 @@ public class UserController {
                 .build();
         return Result.success(userLoginVO);
     }
+    /**
+     * 微信退出
+     *
+     * @return 返回成功结果
+     */
+    @PostMapping("/logout")
+    @ApiOperation("用户退出")
+    public Result<String> logout() {
+        return Result.success();
+    }
 }
