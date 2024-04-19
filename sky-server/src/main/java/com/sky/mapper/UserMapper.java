@@ -23,14 +23,7 @@ public interface UserMapper {
      */
     void insert(User user);
 
-//    //根据姓名模糊查询员工信息
-//    Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
-//
-//    //更新员工信息
-//    @AutoFill(OperationType.UPDATE)
-//    void update(Employee employee);
-//
-//    //根据id查询员工信息
-//    @Select("select * from employee where id = #{id}")
-//    Employee getById(Long id);
+    //根据id查询员工信息
+    @Select("select * from user where id = #{id}")
+    User getById(Long id);
 }
