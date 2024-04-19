@@ -7,9 +7,8 @@
                             amount,remark, phone, address, consignee, estimated_delivery_time, delivery_status,
                             pack_amount, tableware_number, tableware_status)
         values (#{number}, #{status}, #{userId}, #{addressBookId}, #{orderTime}, #{checkoutTime}, #{payMethod},
-                #{payStatus}, #{amount}, #{remark},
-                #{phone}, #{address}, #{consignee}, #{estimatedDeliveryTime}, #{deliveryStatus}, #{packAmount},
-                #{tablewareNumber}, #{tablewareStatus})
+                #{payStatus}, #{amount}, #{remark},#{phone}, #{address}, #{consignee}, #{estimatedDeliveryTime},
+                #{deliveryStatus}, #{packAmount},#{tablewareNumber}, #{tablewareStatus})
     </insert>
     <update id="update" parameterType="com.sky.entity.Orders">
         update orders
