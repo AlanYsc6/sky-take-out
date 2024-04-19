@@ -43,6 +43,17 @@ public class OrderController {
     }
 
     /**
+     * 再来一单
+     * @param id
+     * @return
+     */
+    @PostMapping("/repetition/{id}")
+    public Result submitAgain(@PathVariable Long id){
+        log.info("再来一单：{}",id);
+        orderService.submitOrderAgain(id);
+        return Result.success();
+    }
+    /**
      * 订单支付
      *
      * @param ordersPaymentDTO
@@ -85,5 +96,17 @@ public class OrderController {
     public Result<OrderVO> details(@PathVariable("id") Long id) {
         OrderVO orderVO = orderService.details(id);
         return Result.success(orderVO);
+    }
+
+    /**
+     * 取消订单
+     *
+     * @return
+     */
+    @PutMapping("/cancel/{id}")
+    @ApiOperation("取消订单")
+    public Result cancel(@PathVariable("id") Long id) {
+        orderService.userCancel(id);
+        return Result.success();
     }
 }
