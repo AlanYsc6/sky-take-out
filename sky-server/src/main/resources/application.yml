@@ -57,5 +57,9 @@ sky:
     appid: ${sky.wechat.appid}
     # 设置微信小程序appsecret
     secret: ${sky.wechat.secret}
+  shop:
+    address: 河南省洛阳市洛龙区安乐镇东岗村
+  baidu:
+    ak: mHQAG99lY0TUsA0DolZ2ByHV1T6Ieiel
 pagehelper:
   reasonable: true
