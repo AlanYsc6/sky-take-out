@@ -6,10 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.xiaoymin.knife4j.core.util.CollectionUtils;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
-import com.sky.dto.OrdersConfirmDTO;
-import com.sky.dto.OrdersPageQueryDTO;
-import com.sky.dto.OrdersPaymentDTO;
-import com.sky.dto.OrdersSubmitDTO;
+import com.sky.dto.*;
 import com.sky.entity.*;
 import com.sky.exception.AddressBookBusinessException;
 import com.sky.exception.OrderBusinessException;
@@ -285,7 +282,6 @@ public class OrderServiceImpl implements OrderService {
      */
     public PageResult conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO) {
         PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
-
         Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
 
         // 部分订单状态，需要额外返回订单菜品信息，将Orders转化为OrderVO
@@ -333,6 +329,7 @@ public class OrderServiceImpl implements OrderService {
         // 将该订单对应的所有菜品信息拼接在一起
         return String.join("", orderDishList);
     }
+
     /**
      * 各个状态的订单数量统计
      *
@@ -363,6 +360,48 @@ public class OrderServiceImpl implements OrderService {
                 .id(ordersConfirmDTO.getId())
                 .status(Orders.CONFIRMED)
                 .build();
+        orderMapper.update(orders);
+    }
+
+    /**
+     * 拒单
+     *
+     * @param ordersRejectionDTO
+     */
+    @Override
+    @Transactional
+    public void rejection(OrdersRejectionDTO ordersRejectionDTO) {
+        Orders orders = orderMapper.getById(ordersRejectionDTO.getId());
+        if (orders != null && orders.getStatus().equals(Orders.TO_BE_CONFIRMED)) {
+            orders.setId(ordersRejectionDTO.getId());
+            orders.setStatus(Orders.CANCELLED);
+            orders.setRejectionReason(ordersRejectionDTO.getRejectionReason());
+            if(orders.getPayStatus().equals(Orders.PAID))
+            orders.setPayStatus(Orders.REFUND);
+            orders.setCancelTime(LocalDateTime.now());
+            orderMapper.update(orders);
+        }else {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+    }
+    /**
+     * 商家取消订单
+     *
+     * @param ordersCancelDTO
+     */
+    @Transactional
+    public void cancel(OrdersCancelDTO ordersCancelDTO){
+        // 根据id查询订单
+        Orders orders = orderMapper.getById(ordersCancelDTO.getId());
+
+        if(orders.getPayStatus().equals(Orders.PAID))
+            orders.setPayStatus(Orders.REFUND);
+
+        // 管理端取消订单需要退款，根据订单id更新订单状态、取消原因、取消时间
+        orders.setId(ordersCancelDTO.getId());
+        orders.setStatus(Orders.CANCELLED);
+        orders.setCancelReason(ordersCancelDTO.getCancelReason());
+        orders.setCancelTime(LocalDateTime.now());
         orderMapper.update(orders);
     }
 }
