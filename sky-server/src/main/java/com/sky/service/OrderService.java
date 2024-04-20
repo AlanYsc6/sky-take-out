@@ -77,7 +77,18 @@ public interface OrderService {
      * @param ordersConfirmDTO
      */
     void confirm(OrdersConfirmDTO ordersConfirmDTO);
-
+    /**
+     * 派送订单
+     *
+     * @param id
+     */
+    void delivery(Long id);
+    /**
+     * 完成订单
+     *
+     * @param id
+     */
+    void complete(Long id);
     /**
      * 拒单
      * @param ordersRejectionDTO
