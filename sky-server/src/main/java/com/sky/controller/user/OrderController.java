@@ -44,15 +44,17 @@ public class OrderController {
 
     /**
      * 再来一单
+     *
      * @param id
      * @return
      */
     @PostMapping("/repetition/{id}")
-    public Result submitAgain(@PathVariable Long id){
-        log.info("再来一单：{}",id);
+    public Result submitAgain(@PathVariable Long id) {
+        log.info("再来一单：{}", id);
         orderService.submitOrderAgain(id);
         return Result.success();
     }
+
     /**
      * 订单支付
      *
@@ -107,6 +109,19 @@ public class OrderController {
     @ApiOperation("取消订单")
     public Result cancel(@PathVariable("id") Long id) {
         orderService.userCancel(id);
+        return Result.success();
+    }
+
+    /**
+     * 催单
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/reminder/{id}")
+    @ApiOperation("催单")
+    public Result reminder(@PathVariable("id") Long id) {
+        orderService.reminder(id);
         return Result.success();
     }
 }
