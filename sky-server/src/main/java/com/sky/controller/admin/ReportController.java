@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Author Alan
  * @Date 2024/4/21 16:56
@@ -78,5 +80,14 @@ public class ReportController {
         log.info("销量排名：{}",dataOverViewQueryDTO);
         SalesTop10ReportVO salesTop10ReportVO=reportService.getSalesTop10(dataOverViewQueryDTO.getBegin(), dataOverViewQueryDTO.getEnd());
         return Result.success(salesTop10ReportVO);
+    }
+    /**
+     * 导出运营数据报表
+     * @param response
+     */
+    @GetMapping("/export")
+    @ApiOperation("导出运营数据报表")
+    public void export(HttpServletResponse response){
+        reportService.exportBusinessData(response);
     }
 }
