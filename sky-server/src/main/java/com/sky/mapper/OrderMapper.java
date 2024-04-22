@@ -79,4 +79,21 @@ public interface OrderMapper {
      * @return
      */
     Double sumByMap(Map map);
+
+    /**
+     * 订单总数
+     * @param begin
+     * @param end
+     * @return
+     */
+    Integer getOrderCount(LocalDateTime begin, LocalDateTime end);
+
+    /**
+     * 有效订单数
+     * @param begin
+     * @param end
+     * @param status
+     * @return
+     */
+    Integer getValidOrder(LocalDateTime begin, LocalDateTime end,Integer status);
 }
